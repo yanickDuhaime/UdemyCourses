@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private Rigidbody myRigidbody;
-
-    [SerializeField] private float mainThrustSpeed = 1000f;
-
-    [SerializeField] private float rotationThrustSpeed = 50f;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] float mainThrustSpeed = 1000f;
+    [SerializeField] float rotationThrustSpeed = 50f;
+    
+    [SerializeField] ParticleSystem mainThrusterParticles;
+    [SerializeField] ParticleSystem leftThrusterParticles;
+    [SerializeField] ParticleSystem rightThrusterParticles;
+    
+    Rigidbody myRigidbody;
+    AudioSource myAudioSource;
+ 
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -22,27 +29,81 @@ public class Movement : MonoBehaviour
         ProcessRotation();
     }
 
+    
     void ProcessThrust()
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            myRigidbody.AddRelativeForce(Vector3.up * mainThrustSpeed * Time.deltaTime);
+            StartThrusting();
+        }
+
+        else
+        {
+            StopThrusting();
         }
     }
-
+    
+    
     void ProcessRotation()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyRotation(Vector3.forward);
+            RotateLeft();
         }
-        else if (Input.GetKey(KeyCode.D)) 
+        else if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(-Vector3.forward);
+            RotateRight();
+        }
+        else
+        {
+            StopRotation();
         }
     }
 
-    private void ApplyRotation(Vector3 speed)
+    
+    void StartThrusting()
+    {
+        if (!myAudioSource.isPlaying)
+            myAudioSource.PlayOneShot(mainEngine);
+
+        if (!mainThrusterParticles.isPlaying)
+            mainThrusterParticles.Play();
+
+        myRigidbody.AddRelativeForce(Vector3.up * mainThrustSpeed * Time.deltaTime);
+    }
+    
+    
+    void StopThrusting()
+    {
+        mainThrusterParticles.Stop();
+        myAudioSource.Stop();
+    }
+    
+    
+    void RotateLeft()
+    {
+        ApplyRotation(Vector3.forward);
+        if (!rightThrusterParticles.isPlaying)
+            rightThrusterParticles.Play();
+    }
+
+    
+    void RotateRight()
+    {
+        ApplyRotation(-Vector3.forward);
+        if (!leftThrusterParticles.isPlaying)
+            leftThrusterParticles.Play();
+    }
+
+    
+    void StopRotation()
+    {
+        leftThrusterParticles.Stop();
+        rightThrusterParticles.Stop();
+    }
+
+    
+    void ApplyRotation(Vector3 speed)
     {
         myRigidbody.freezeRotation = true; //freezing rotation so we can manually rotate
         transform.Rotate(speed * rotationThrustSpeed * Time.deltaTime);
