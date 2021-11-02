@@ -9,19 +9,19 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField] int currentHitPoints = 0;
     
-    void Start()
+    void OnEnable()
     {
         currentHitPoints = maxHitPoints;
     }
 
-    void OnParticleCollision(GameObject other)
+    void OnParticleCollision(GameObject other)          
     {
-        takeDamage(1);
+        TakeDamage(1);
     }
 
-    public void takeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHitPoints -= damage;
-        if(currentHitPoints <= 0) Destroy(gameObject);
+        if(currentHitPoints <= 0) gameObject.SetActive(false);
     }
 }
