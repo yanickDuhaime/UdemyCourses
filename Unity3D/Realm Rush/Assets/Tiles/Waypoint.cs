@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    [SerializeField] GameObject towerPrefab;
+    [SerializeField] Tower towerPrefab;
     [SerializeField] bool isPlaceable;
         
     public bool IsPlaceable => isPlaceable; //get{return isPlaceable}
@@ -14,9 +14,8 @@ public class Waypoint : MonoBehaviour
     {
         if (isPlaceable)
         {
-            Debug.Log(transform.name);
-            Instantiate(towerPrefab, transform.position, Quaternion.identity);
-            isPlaceable = false;
+            bool isPlaced = towerPrefab.CreateTower(towerPrefab, transform.position);
+            isPlaceable = !isPlaced;
         }
     }
 }
