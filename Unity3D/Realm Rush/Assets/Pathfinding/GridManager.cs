@@ -22,6 +22,16 @@ public class GridManager : MonoBehaviour
         return grid.ContainsKey(coordinates) ? grid[coordinates] : null;
     }
 
+    public void ResetNodes()
+    {
+        foreach (KeyValuePair<Vector2Int,Node> entry in grid)
+        {
+            entry.Value.connectedTo = null;
+            entry.Value.isExplored = false;
+            entry.Value.isPath = false;
+        }
+    }
+
     public void BlockNode(Vector2Int coordinates)
     {
         if (grid.ContainsKey(coordinates))

@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Cost>k__BackingField: 25
+  buildTime: 0.5
 --- !u!1 &5154183075452287376
 GameObject:
   m_ObjectHideFlags: 0

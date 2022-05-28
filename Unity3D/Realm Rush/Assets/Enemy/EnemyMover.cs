@@ -6,48 +6,58 @@ using UnityEngine;
 public class EnemyMover : MonoBehaviour
 {
 
-    [SerializeField] List<Tile> path = new List<Tile>();
+    [SerializeField] List<Node> path = new List<Node>();
 
     [SerializeField] [Range(0f,5f)]float speed = 1f;
 
     Enemy enemy;
+    private GridManager gridManager;
+    private Pathfinder pathfinder;
 
-    void Start()
+    void Awake()
     {
         enemy = GetComponent<Enemy>();
+        gridManager = FindObjectOfType<GridManager>();
+        pathfinder = FindObjectOfType<Pathfinder>();
+
     }
 
     void OnEnable()
     {
-        FindPath();
         ReturnToStart();
-        StartCoroutine(FollowPath());
-       
+        RecalculatePath(true);
     }
 
-    void FindPath()
+    void RecalculatePath(bool resetPath)
     {
-        path.Clear();
-        GameObject parent = GameObject.FindGameObjectWithTag("Path");
-        foreach (Transform child in parent.transform )
+        Vector2Int coordinates = new Vector2Int();
+        if (resetPath)
         {
-            Tile tile = child.GetComponent<Tile>();
-            if(tile != null)
-                path.Add(tile);
+            coordinates = pathfinder.StartCoordinates;
         }
+        else
+        {
+            coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+        }
+        //Arrête la coroutine pour pas que l'ennemy continu de bouger avec l'ancien path
+        StopAllCoroutines();
+        path.Clear();
+        path = pathfinder.GetNewPath(coordinates);
+        StartCoroutine(FollowPath());
+
     }
 
     void ReturnToStart()
     {
-        transform.position = path[0].transform.position;
+        transform.position = gridManager.GetPositionFromCoordinates(pathfinder.StartCoordinates);
     }
 
     IEnumerator FollowPath()
     {
-        foreach (Tile waypoint in path)
+        for (int i = 1; i< path.Count; i++)
         {
             Vector3 startPos = transform.position;
-            Vector3 endPos = waypoint.transform.position;
+            Vector3 endPos = gridManager.GetPositionFromCoordinates(path[i].coordinates) ;
             float travelPercent = 0f;
             transform.LookAt(endPos);
             while (travelPercent < 1)
