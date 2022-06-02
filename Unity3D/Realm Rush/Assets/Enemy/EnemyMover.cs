@@ -26,6 +26,12 @@ public class EnemyMover : MonoBehaviour
     {
         ReturnToStart();
         RecalculatePath(true);
+
+    }
+
+    private void Start()
+    {
+        //RecalculatePath(true);
     }
 
     void RecalculatePath(bool resetPath)
@@ -42,7 +48,9 @@ public class EnemyMover : MonoBehaviour
         //Arrête la coroutine pour pas que l'ennemy continu de bouger avec l'ancien path
         StopAllCoroutines();
         path.Clear();
-        path = pathfinder.GetNewPath(coordinates);
+        //path = pathfinder.GetNewPath(coordinates);
+        path = pathfinder.DijkstraGetNewPath(coordinates);
+
         StartCoroutine(FollowPath());
 
     }

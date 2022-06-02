@@ -10,11 +10,15 @@ public class Node
     public bool isWalkable;
     public bool isExplored;
     public bool isPath;
+    public int terrainDifficulty;
     public Node connectedTo;
+    public int distanceFromStart;
 
     public Node(Vector2Int coordinates, bool isWalkable)
     {
         this.coordinates = coordinates;
         this.isWalkable = isWalkable;
+        distanceFromStart = int.MaxValue;
+        
     }
 }

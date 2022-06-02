@@ -39,6 +39,22 @@ public class GridManager : MonoBehaviour
             grid[coordinates].isWalkable = false;
         }
     }
+    
+    public void SetNodeDifficulty(Vector2Int coordinates,int terrainDifficulty)
+    {
+        if (grid.ContainsKey(coordinates))
+        {
+            grid[coordinates].terrainDifficulty = terrainDifficulty;
+        }
+    }
+
+    public void ResetNodesDistance()
+    {
+        foreach (var node in grid)
+        {
+            node.Value.distanceFromStart = int.MaxValue;
+        }
+    }
 
     public Vector2Int GetCoordinatesFromPosition(Vector3 position)
     {

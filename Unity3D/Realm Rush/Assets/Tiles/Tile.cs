@@ -7,7 +7,9 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] Tower towerPrefab;
     [SerializeField] bool isPlaceable;
-        
+    [SerializeField] private int terrainDifficulty = 1;
+    
+    
     public bool IsPlaceable => isPlaceable; //get{return isPlaceable}
 
     private GridManager gridManager;
@@ -26,7 +28,7 @@ public class Tile : MonoBehaviour
         if (gridManager)
         {
             coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
-
+            gridManager.SetNodeDifficulty(coordinates,terrainDifficulty);
             if (!isPlaceable)
             {
                 gridManager.BlockNode(coordinates);
