@@ -1,0 +1,104 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "cfa4cc60-a6f9-46df-862a-ae4adbbcdf51",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "57795a6d-927b-4d03-a4e7-57ac48f66b1d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dodge",
+                    "type": "Button",
+                    "id": "30edc391-3fab-4002-af68-50cf1dee7ed4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7430c3bd-d8d8-4552-a910-a94945cbda7e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse&Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70a8dd17-2bc3-4663-b537-3c2b8fe8e49c",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86c240b7-fba7-4d27-b9a9-6cdd1ae8e101",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse&Keyboard",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41a4249f-a2e7-48bc-916d-0f398fed0f33",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse&Keyboard",
+            "bindingGroup": "Mouse&Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "GamePad",
+            "bindingGroup": "GamePad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

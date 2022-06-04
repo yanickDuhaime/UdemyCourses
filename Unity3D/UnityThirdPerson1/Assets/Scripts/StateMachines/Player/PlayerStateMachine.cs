@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
+
+    [field:SerializeField] public InputReader InputReader { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        SwitchState(new PlayerTestState(this));
+        //StartCoroutine(SwitchStateCoroutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator SwitchStateCoroutine()
     {
-        
+        SwitchState(new PlayerTestState(this));
+        yield return new WaitForSeconds(1f);
+        SwitchState(new PlayerJumpState(this));
     }
 }
