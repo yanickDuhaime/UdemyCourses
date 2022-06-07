@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking.PlayerConnection;
 
 public class PlayerFreeLookState : PlayerBaseState
 {
     private static readonly int FreeLookSpeed = Animator.StringToHash("FreeLookSpeed");
+    private static readonly int FreeLookBlendTree = Animator.StringToHash("FreeLookBlendTree");
+
     private const float AnimatorDampTime = 0.1f;
 
     public PlayerFreeLookState(PlayerStateMachine stateMachine) : base(stateMachine)
@@ -13,13 +16,15 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void Enter()
     {
+        stateMachine.Animator.Play(FreeLookBlendTree);
+        stateMachine.InputReader.TargetEvent += OnTarget;
     }
 
     public override void Tick(float deltaTime)
     {
         Vector3 movement = CalculateMovement();
         //stateMachine.transform.Translate(movement * deltaTime);
-        stateMachine.CharacterController.Move(movement * stateMachine.FreeLookMovementSpeed * deltaTime);
+        Move(movement * stateMachine.FreeLookMovementSpeed , deltaTime);
 
         if (MovementAnimation(deltaTime)) return;
         
@@ -30,6 +35,7 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void Exit()
     {
+        stateMachine.InputReader.TargetEvent -= OnTarget;
 
     }
     
@@ -62,5 +68,11 @@ public class PlayerFreeLookState : PlayerBaseState
     private void FaceMovementDirection(Vector3 movement, float deltaTime)
     {
         stateMachine.transform.rotation = Quaternion.Lerp(stateMachine.transform.rotation,Quaternion.LookRotation(movement), deltaTime * stateMachine.RotationDamping);
+    }
+
+    private void OnTarget()
+    {
+        if (!stateMachine.Targeter.SelectTarget()) return;
+        stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
     }
 }
