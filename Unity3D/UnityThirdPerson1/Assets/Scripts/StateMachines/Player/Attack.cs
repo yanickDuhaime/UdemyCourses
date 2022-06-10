@@ -15,5 +15,6 @@ public class Attack
     [field: SerializeField] public float ForceTime { get; private set; }
     //Intensity of the force
     [field: SerializeField] public float Force { get; private set; }
+    [field: SerializeField] public int Damage { get; private set; } = 10;
 
 }
