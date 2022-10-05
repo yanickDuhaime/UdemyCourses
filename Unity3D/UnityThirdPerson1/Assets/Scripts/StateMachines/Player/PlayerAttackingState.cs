@@ -51,9 +51,6 @@ public class PlayerAttackingState : PlayerBaseState
             }
         }
         
-        
-       
-
         previousFrameTime = normalizedTime;
     }
 
